@@ -62,7 +62,9 @@ module ActiveRecord
               attributes_to_delegate = attributes + associations - ignored
               base.send :define_acts_as_accessors, attributes_to_delegate, "#{name}"
 
-              base.attr_accessible.update(#{class_name}.attr_accessible)
+              if defined?(::ProtectedAttributes)
+                base.attr_accessible.update(#{class_name}.attr_accessible)
+              end
             end
 
             def #{name}_with_autobuild
